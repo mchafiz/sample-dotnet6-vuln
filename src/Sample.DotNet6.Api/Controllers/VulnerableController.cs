@@ -13,6 +13,16 @@ public class VulnerableController : ControllerBase
     // 1. Hardcoded Credentials (S2068)
     private const string DatabasePassword = "superSecretPassword123";
 
+    [HttpGet("login")]
+    public IActionResult Login(string password)
+    {
+        if (password == DatabasePassword) // Vulnerable: Using hardcoded password
+        {
+            return Ok("Logged in");
+        }
+        return Unauthorized();
+    }
+
     // 2. Command Injection (S2076)
     [HttpGet("command-injection")]
     public IActionResult CommandInjection(string input)
